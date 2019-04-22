@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>倒计时</title>
+	</head>
+	<body>
+		<div id="time">
+			<div id="nowTimeDiv">
+				
+				<span id="nowTimeSpan">2019年4月22日 09:26:28</span>
+			</div>
+			<div id="targetTimeDiv">
+				
+				<span id="nowTimeSpan">2019年5月22日</span>
+			</div>
+			<div id="borderLine">
+			</div>
+			<div id="surplus">
+				倒计时
+			</div>
+			<div id="allSurplus"></div>
+			<div id="mySurplus"></div>
+		</div>
+	</body>
+	<style type="text/css">
+		#time {
+		    width: 600px;
+		    height: 300px;
+		    position: absolute;
+		    left: 50%;
+		    top: 50%;
+		    margin-left: -300px;
+		    margin-top: -150px;
+		    background-color: #f4f4f4;
+		    text-align: center;
+		    border-radius: 50px;
+		    border: 2px solid #cdcdcd;
+		    box-shadow: 15px 15px 5px #888888;
+		    font-size: 22px;
+		}
+		#nowTimeDiv {
+			float: left;
+			height: 30px;
+			margin: 20px 0 0 30px;
+		}
+		#targetTimeDiv {
+			float: right;
+			height: 30px;
+			margin: 20px 30px 0 0;
+		}
+		#borderLine {
+			margin-top: 60px;
+			border-bottom: 2px dashed #cdcdcd;
+		}
+		#surplus {
+			margin: 15px auto 15px;
+			height: 30px;
+			font-size: 20px;
+		}
+		#allSurplus {
+			margin-top: 20px;
+			display: none;
+		}
+		#mySurplus {
+			margin-top: 20px;
+			font-size: 50px;
+		}
+	</style>
+	<script type="text/javascript">
+		window.onload = function() {
+			setNowTime();
+			setSurplus();
+			setInterval(function(){
+				setNowTime();
+				setSurplus();
+			},1000);
+		}
+		function setNowTime() {
+			var span = document.getElementById("nowTimeSpan");
+			span.innerHTML = dateToYMDHMS();
+		}
+		function setSurplus() {
+			var div1 = document.getElementById("allSurplus");
+			var div2 = document.getElementById("mySurplus");
+			
+			var stopTime = new Date("2019-05-22");
+			stopTime = stopTime.getTime();
+			var nowTime = new Date();
+			nowTime = nowTime.getTime();
+			var cha = stopTime-nowTime;
+			if(cha == 0) {
+				div1.innerHTML = "时间到啦！";
+				div2.innerHTML = "时间到啦！";
+			} else if(cha < 0) {
+				div1.innerHTML = "倒计时已结束！";
+				div2.innerHTML = "倒计时已结束！";
+			} else {
+				cha = Math.floor(cha/1000);
+				div1.innerHTML = cha +"秒";
+				
+				var day = Math.floor(cha / 3600 / 24);//天
+				
+    			var modulo = cha % (3600 * 24);//余数
+		        var hours = Math.floor(modulo/3600);//时
+		        
+		        modulo = modulo % (60 * 60);
+		        var minutes = Math.floor(modulo / 60);//分
+		        
+		        var seconds = Math.floor(modulo % 60);//秒
+				div2.innerHTML = day + '天' + hours + '时' + minutes + '分' + seconds + '秒';
+			}
+		}
+		function dateToYMDHMS() {
+	        var date = new Date();
+	        var year = date.getFullYear();
+	        var month = date.getMonth()+1;
+	        var day = date.getDate();
+	        var hours = date.getHours();
+	        var minutes = date.getMinutes();
+	        var seconds = date.getSeconds();
+	        hours = hours<10?"0"+hours:hours;
+	        minutes = minutes<10?"0"+minutes:minutes;
+	        seconds = seconds<10?"0"+seconds:seconds;
+	        return year + '年' + month + '月' + day + '日 ' + hours + ':' + minutes + ':' + seconds;
+		}
+	</script>
+</html>
